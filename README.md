@@ -23,6 +23,12 @@
       alt="go version"
     />
   </a>
+  <a href="https://github.com/skmatz/imcat/releases/latest">
+    <img
+      src="https://img.shields.io/github/v/release/skmatz/imcat"
+      alt="release"
+    />
+  </a>
 </p>
 
 <p align="center">
@@ -30,6 +36,12 @@
 </p>
 
 ## Install
+
+### Binary
+
+Get binary from [releases](https://github.com/skmatz/imcat/releases).
+
+### Source
 
 ```sh
 go get github.com/skmatz/imcat
