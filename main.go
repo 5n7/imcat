@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"regexp"
 
@@ -10,9 +11,15 @@ import (
 	"golang.org/x/crypto/ssh/terminal"
 )
 
+// These variables are set in build step
+var (
+	Version = "unset"
+)
+
 // Option represents application options
 type Option struct {
-	Scale bool `short:"s" long:"scale" description:"Show with scaling"`
+	Scale   bool `short:"s" long:"scale" description:"Show with scaling"`
+	Version bool `short:"v" long:"version" description:"Show imcat version"`
 }
 
 func terminalSize() (width, height int, err error) {
@@ -31,6 +38,11 @@ func run(args []string) int {
 	args, err := flags.ParseArgs(&opt, args)
 	if err != nil {
 		return 2
+	}
+
+	if opt.Version {
+		fmt.Printf("imcat v%s\n", Version)
+		return 0
 	}
 
 	paths := args
