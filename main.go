@@ -28,11 +28,11 @@ func run(args []string) int {
 	)
 
 	args, err := flags.ParseArgs(&opt, args)
-	if err != nil || len(args) != 1 {
+	if err != nil {
 		return 2
 	}
 
-	path := args[0]
+	paths := args
 
 	tx, ty, err := terminalSize()
 	if err != nil {
@@ -50,19 +50,21 @@ func run(args []string) int {
 
 	dm := ansimage.NoDithering
 
-	if matched, _ := regexp.MatchString("^https?://", path); matched {
-		pix, err = ansimage.NewScaledFromURL(path, ty*sfy, tx*sfx, bg, sm, dm)
-		if err != nil {
-			return 1
+	for _, path := range paths {
+		if matched, _ := regexp.MatchString("^https?://", path); matched {
+			pix, err = ansimage.NewScaledFromURL(path, ty*sfy, tx*sfx, bg, sm, dm)
+			if err != nil {
+				return 1
+			}
+		} else {
+			pix, err = ansimage.NewScaledFromFile(path, ty*sfy, tx*sfx, bg, sm, dm)
+			if err != nil {
+				return 1
+			}
 		}
-	} else {
-		pix, err = ansimage.NewScaledFromFile(path, ty*sfy, tx*sfx, bg, sm, dm)
-		if err != nil {
-			return 1
-		}
-	}
 
-	pix.Draw()
+		pix.Draw()
+	}
 
 	return 0
 }
