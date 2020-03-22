@@ -12,6 +12,7 @@ import (
 
 // Option represents application options
 type Option struct {
+	Scale bool `short:"s" long:"scale" description:"Show with scaling"`
 }
 
 func terminalSize() (width, height int, err error) {
@@ -50,14 +51,22 @@ func run(args []string) int {
 
 	dm := ansimage.NoDithering
 
+	xSize := tx * sfx
+	ySize := ty * sfy
+
+	if opt.Scale {
+		xSize /= len(paths)
+		ySize /= len(paths)
+	}
+
 	for _, path := range paths {
 		if matched, _ := regexp.MatchString("^https?://", path); matched {
-			pix, err = ansimage.NewScaledFromURL(path, ty*sfy, tx*sfx, bg, sm, dm)
+			pix, err = ansimage.NewScaledFromURL(path, ySize, xSize, bg, sm, dm)
 			if err != nil {
 				return 1
 			}
 		} else {
-			pix, err = ansimage.NewScaledFromFile(path, ty*sfy, tx*sfx, bg, sm, dm)
+			pix, err = ansimage.NewScaledFromFile(path, ySize, xSize, bg, sm, dm)
 			if err != nil {
 				return 1
 			}
