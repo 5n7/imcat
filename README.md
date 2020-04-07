@@ -8,7 +8,7 @@
   <a href="https://github.com/skmatz/imcat/actions?query=workflow%3Abuild">
     <img
       src="https://github.com/skmatz/imcat/workflows/build/badge.svg"
-      alt="release"
+      alt="build"
     />
   </a>
   <a href="./LICENSE">
